@@ -7,21 +7,10 @@ import sort.Sort;
 
 //¥Ú”°
 /**
- * @author Administrator
+ * @—Óª‘»˝Ω«
  *
  */
-/**
- * @author Administrator
- *
- */
-/**
- * @author Administrator
- *
- */
-/**
- * @author Administrator
- *
- */
+
 public class YangHuiTriangle
 {
 	//n¥Œ√›
