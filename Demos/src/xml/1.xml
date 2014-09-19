@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Animal>
+    <Dog>
+        	狗
+    </Dog>
+    <Cat>
+        	猫
+    </Cat>
+</Animal>
