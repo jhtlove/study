@@ -34,12 +34,12 @@ public class Sort
 			}
 			if (temp <= arr[i])
 			{
-				break;
+				break;//要么break出来，要么k继续往下走
 			}
 			else
 			{
 				arr[k] = arr[i];
-				k = i;// k一直指向，待调整的子树 的父结点
+				k = i;// k一直指向，下一轮循环，待调整的子树 的父结点
 			}
 		}
 		arr[k] = temp;// 待调整的k指针没动，直接break出来，没有继续向下调整
@@ -202,10 +202,11 @@ public class Sort
 	{
 		int i = 0, j = 0, temp = 0;
 		boolean swaped = false;
-		for (i = 0; i < a.length; i++)
+		// i，控制趟数，n个元素排序，最多进行n-1趟
+		for (i = 0; i < a.length - 1; i++)
 		{
 			swaped = false;
-			// 会有j+1，所以注意边界控制
+			// j指向待排序序列，每一趟将一个待排序列中的最大元素放到该序列的最后。会有j+1，所以注意边界控制
 			for (j = 0; j < a.length - i - 1; j++)
 			{
 				if (a[j] > a[j + 1])
@@ -218,7 +219,7 @@ public class Sort
 			}
 			if (swaped == false)
 			{
-				break;
+				return;// 本趟无逆序，停止处理
 			}
 		}
 	}
@@ -340,24 +341,78 @@ public class Sort
 	public static void insertSort(int a[])
 	{
 		int i = 0, j = 0, temp = 0;
-		for (i = 2; i <= a.length; i++)
+		//如果只有一个元素，整个for循环都不会执行，也对。
+		for (i = 1; i <= a.length-1; i++)
 		{
-			a[0] = a[i];// a[0]是哨兵
+			//a[0] = a[i];// a[0]是哨兵。实际操作起来，就不能将a[0]存放待排序的元素，不太适合实际编程实现
+			temp = a[i];
 			// i指向带插入的元素，从第二个开始试探，如果比前一个小，就要插入
+			//如果就两个元素【3,1】，也对
 			if (a[i] < a[i - 1])
 			{
 				// 找到合适的插入位置，j指向已经有序的端;哨兵保证 最多j==1时， 一定会停下来
 				j = i - 1;
-				while (a[j] > a[0])
+				//既然能进入这个if里面，那么while中的条件第一次肯定是成立的，至少挪一下，所以使用用do……while更简洁
+				while (temp < a[j] && j>=0)
 				{
 					a[j + 1] = a[j];
 					j--;
 				}
-				a[j + 1] = a[0];
+				a[j + 1] = temp;
+			}
+		}
+	}
+//两个指针，一个指向待插入元素，一个指向已经排好序的序列
+	public static void insertSort(int a[], int left, int right)
+	{
+		int i = 0, j = 0, temp = 0;
+		// i 指向待排序的元素。实际应用时：就是传入参数left = 0，right = a.lenght-1；
+		for (i = left + 1; i <= right; i++)
+		{
+			// 如果带排序元素需要往前插入，就不断后移动元素；如果不需要，就什么不做，直接考察下一个元素
+			if (a[i] < a[i - 1])
+			{
+				temp = a[i];// temp保存了待插入的元素
+				j = i - 1;// j指向了之前已经有序的段
+				do
+				{
+					a[j + 1] = a[j];
+					j--;
+
+				} while (j >= left && temp < a[j]);
+				a[j + 1] = temp;// 插入temp
 			}
 		}
 	}
 
+	public static void binaryInsertSort(int arr[],int left,int right)
+	{
+		int i=0,j=0,temp=0,high = 0,low=0,middle=0;
+		for(i=left+1;i<=right;i++)
+		{
+			temp = arr[i];
+			low = left;
+			high = i-1;
+			while(low<=high)
+			{
+				middle = (low+high)/2;
+				if(temp < arr[middle])
+				{
+					high = middle - 1;
+				}
+				else
+				{
+					low = middle + 1;
+				}
+			}
+			for(j=i-1;j>=low;j--)
+			{
+				arr[j+1] = arr[j];
+			}
+			arr[low] = temp;
+		}
+	}
+	
 	public static void disArr(int a[])
 	{
 		int i = 0;// java中，定义在for中的int i ，作用域就只在for中
